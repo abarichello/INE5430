@@ -3,7 +3,6 @@ package env;
 import java.awt.*;
 import javax.swing.*;
 
-
 public class PlanetGUI extends JPanel {
 
     private PlanetCell[][] planet;
@@ -24,44 +23,44 @@ public class PlanetGUI extends JPanel {
         cellHeight = 20;
         setSize(600, 600);
         gridSize = 30;
-        middle = gridSize/2;
+        middle = gridSize / 2;
     }
 
     public void paintComponent(Graphics g) {
 
-        for(int row = 0; row<gridSize; row++) {
-            for(int col = 0; col<gridSize; col++) {
+        for (int row = 0; row < gridSize; row++) {
+            for (int col = 0; col < gridSize; col++) {
 
                 g.setColor(new Color(185, 58, 17));
                 g.fillRect(col * cellWidth, row * cellHeight, cellWidth, cellHeight);
                 g.setColor(Color.gray);
                 g.drawRect(col * cellWidth, row * cellHeight, cellWidth, cellHeight);
 
-                if(planet[col][row] != null) {
+                if (planet[col][row] != null) {
 
-                    if(col == middle && row == middle) {
+                    if (col == middle && row == middle) {
                         g.setColor(Color.white);
-                        g.fillRect((col * cellWidth) +3, (row * cellHeight) +3, cellWidth - 5, cellHeight - 5);
+                        g.fillRect((col * cellWidth) + 3, (row * cellHeight) + 3, cellWidth - 5, cellHeight - 5);
                     } else {
                         Resource r = (Resource) planet[col][row];
                         int type = r.getType();
                         int amount = r.getAmount();
-                        switch(type) {
-                        case 1:
-                            g.setColor(Color.orange);
-                            break;
-                        case 2:
-                            g.setColor(Color.green);
-                            break;
-                        case 3:
-                            g.setColor(Color.lightGray);
-                            break;
+                        switch (type) {
+                            case 1:
+                                g.setColor(Color.orange);
+                                break;
+                            case 2:
+                                g.setColor(Color.green);
+                                break;
+                            case 3:
+                                g.setColor(Color.lightGray);
+                                break;
                         }
 
-                        g.fillOval(col*cellWidth +3, row*cellHeight +3, cellWidth - 5, cellHeight - 5);
+                        g.fillOval(col * cellWidth + 3, row * cellHeight + 3, cellWidth - 5, cellHeight - 5);
                         g.setColor(Color.black);
                         g.setFont(new Font("Arial", Font.PLAIN, 11));
-                        g.drawString(""+amount, (col * cellWidth) +8, (row * cellHeight) +14);
+                        g.drawString("" + amount, (col * cellWidth) + 8, (row * cellHeight) + 14);
                     }
 
                 }
@@ -70,27 +69,26 @@ public class PlanetGUI extends JPanel {
         }
 
         g.setColor(Color.black);
-        g.fillRoundRect(agent1[0]*cellWidth +3, agent1[1]*cellHeight +3, cellWidth - 5, cellHeight - 5, 3, 3);
+        g.fillRoundRect(agent1[0] * cellWidth + 3, agent1[1] * cellHeight + 3, cellWidth - 5, cellHeight - 5, 3, 3);
         g.setColor(Color.white);
-        g.drawString("A", (agent1[0]*cellWidth) +7, (agent1[1]*cellHeight) +14);
+        g.drawString("A", (agent1[0] * cellWidth) + 7, (agent1[1] * cellHeight) + 14);
 
         g.setColor(Color.black);
-        g.fillRoundRect(agent2[0]*cellWidth +3, agent2[1]*cellHeight +3, cellWidth - 5, cellHeight - 5, 3, 3);
+        g.fillRoundRect(agent2[0] * cellWidth + 3, agent2[1] * cellHeight + 3, cellWidth - 5, cellHeight - 5, 3, 3);
         g.setColor(Color.white);
-        g.drawString("B", (agent2[0]*cellWidth) +7, (agent2[1]*cellHeight) +14);
+        g.drawString("B", (agent2[0] * cellWidth) + 7, (agent2[1] * cellHeight) + 14);
 
         g.setColor(Color.black);
-        g.fillRoundRect(agent3[0]*cellWidth +3, agent3[1]*cellHeight +3, cellWidth - 5, cellHeight - 5, 3, 3);
+        g.fillRoundRect(agent3[0] * cellWidth + 3, agent3[1] * cellHeight + 3, cellWidth - 5, cellHeight - 5, 3, 3);
         g.setColor(Color.white);
-        g.drawString("C", (agent3[0]*cellWidth) +7, (agent3[1]*cellHeight) +14);
+        g.drawString("C", (agent3[0] * cellWidth) + 7, (agent3[1] * cellHeight) + 14);
 
         // new agent
         g.setColor(Color.black);
-        g.fillRoundRect(agent4[0]*cellWidth +3, agent4[1]*cellHeight +3, cellWidth - 5, cellHeight - 5, 3, 3);
+        g.fillRoundRect(agent4[0] * cellWidth + 3, agent4[1] * cellHeight + 3, cellWidth - 5, cellHeight - 5, 3, 3);
         g.setColor(Color.white);
-        g.drawString("D", (agent4[0]*cellWidth) +7, (agent4[1]*cellHeight) +14);
+        g.drawString("D", (agent4[0] * cellWidth) + 7, (agent4[1] * cellHeight) + 14);
     }
-
 
     public void update() {
 

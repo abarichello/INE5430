@@ -55,7 +55,7 @@ public class PlanetEnv extends Environment {
     public PlanetEnv() {
 
         gridSize = 30;
-        middle = gridSize/2;
+        middle = gridSize / 2;
 
         planet = new PlanetCell[gridSize][gridSize];
         resourcemap = new boolean[gridSize][gridSize];
@@ -74,7 +74,7 @@ public class PlanetEnv extends Environment {
         col3[X] = middle;
         col3[Y] = middle;
         // new agent
-		col4 = new int[2];
+        col4 = new int[2];
         col4[X] = middle;
         col4[Y] = middle;
 
@@ -83,12 +83,12 @@ public class PlanetEnv extends Environment {
         int x;
         int y;
 
-        for(int i = 0; i<15; i++) {
+        for (int i = 0; i < 15; i++) {
 
             x = random.nextInt(gridSize);
             y = random.nextInt(gridSize);
 
-            while(planet[x][y] != null || x==middle && y==middle) {
+            while (planet[x][y] != null || x == middle && y == middle) {
 
                 x = random.nextInt(gridSize);
                 y = random.nextInt(gridSize);
@@ -98,12 +98,12 @@ public class PlanetEnv extends Environment {
             resourcemap[x][y] = true;
         }
 
-        for(int i = 0; i<10; i++) {
+        for (int i = 0; i < 10; i++) {
 
             x = random.nextInt(gridSize);
             y = random.nextInt(gridSize);
 
-            while(planet[x][y] != null || x==middle && y==middle) {
+            while (planet[x][y] != null || x == middle && y == middle) {
 
                 x = random.nextInt(gridSize);
                 y = random.nextInt(gridSize);
@@ -113,12 +113,12 @@ public class PlanetEnv extends Environment {
             resourcemap[x][y] = true;
         }
 
-        for(int i = 0; i<20; i++) {
+        for (int i = 0; i < 20; i++) {
 
             x = random.nextInt(gridSize);
             y = random.nextInt(gridSize);
 
-            while(planet[x][y] != null || x==middle && y==middle) {
+            while (planet[x][y] != null || x == middle && y == middle) {
 
                 x = random.nextInt(gridSize);
                 y = random.nextInt(gridSize);
@@ -144,9 +144,9 @@ public class PlanetEnv extends Environment {
     }
 
     public boolean executeAction(String agent, Structure action) {
-        if(action.equals(nc)) {
+        if (action.equals(nc)) {
 
-            if(agent.equals("col1")) {
+            if (agent.equals("col1")) {
 
                 col1[X]++;
 
@@ -158,20 +158,19 @@ public class PlanetEnv extends Environment {
                     col1[Y] = 0;
                 }
 
-
-            } else if(agent.equals("col2")) {
+            } else if (agent.equals("col2")) {
 
                 col2[X]--;
 
                 if (col2[X] == -1) {
-                    col2[X] = gridSize-1;
+                    col2[X] = gridSize - 1;
                     col2[Y]--;
                 }
                 if (col2[Y] == -1) {
-                    col2[Y] = gridSize-1;
+                    col2[Y] = gridSize - 1;
                 }
 
-            } else if(agent.equals("col3")) {
+            } else if (agent.equals("col3")) {
 
                 col3[Y]++;
 
@@ -183,7 +182,7 @@ public class PlanetEnv extends Environment {
                     col3[X] = 0;
                 }
 
-            } else if(agent.equals("col4")) {
+            } else if (agent.equals("col4")) {
 
                 col4[Y]++;
 
@@ -202,161 +201,161 @@ public class PlanetEnv extends Environment {
             Site s = (Site) planet[middle][middle];
             int resourceBuilt = s.build();
 
-            Literal nr = Literal.parseLiteral("new_resource("+action.getTerm(0)+","+action.getTerm(1)+")");
-            removePercept("builder",nr);
+            Literal nr = Literal.parseLiteral("new_resource(" + action.getTerm(0) + "," + action.getTerm(1) + ")");
+            removePercept("builder", nr);
 
-            if(resourceBuilt == 1) {
-                if(s.getr1() == 0) {
-                    addPercept("builder",r1fin);
+            if (resourceBuilt == 1) {
+                if (s.getr1() == 0) {
+                    addPercept("builder", r1fin);
                     gui.out("Resource 1 no longer needed: Requesting Resource 2.");
                 }
             }
-            if(resourceBuilt == 2) {
-                if(s.getr2() == 0) {
-                    addPercept("builder",r2fin);
+            if (resourceBuilt == 2) {
+                if (s.getr2() == 0) {
+                    addPercept("builder", r2fin);
                     gui.out("Resource 2 no longer needed: Requesting Resource 3.");
                 }
             }
-            if(resourceBuilt == 3) {
-                if(s.complete()) {
-                    addPercept("builder",finished);
+            if (resourceBuilt == 3) {
+                if (s.complete()) {
+                    addPercept("builder", finished);
                     gui.out("Building complete: requesting agents to return home.");
                 }
             }
 
-            gui.out("Resource "+resourceBuilt+" used, current values needed: r1 = "+s.getr1()+",r2 = "+s.getr2()+", r3 = "+s.getr3());
-        } else if(action.getFunctor().equals(mr)) {
+            gui.out("Resource " + resourceBuilt + " used, current values needed: r1 = " + s.getr1() + ",r2 = "
+                    + s.getr2() + ", r3 = " + s.getr3());
+        } else if (action.getFunctor().equals(mr)) {
 
-            if(agent.equals("col1")) {
+            if (agent.equals("col1")) {
 
-                if(resourcemap[col1[X]][col1[Y]])   {
+                if (resourcemap[col1[X]][col1[Y]]) {
                     Resource r = (Resource) planet[col1[X]][col1[Y]];
                     r.mine();
                     c1res = r.getType();
-                    gui.out("Agent A mining resource "+c1res);
-                    if(r.depleted()) {
+                    gui.out("Agent A mining resource " + c1res);
+                    if (r.depleted()) {
                         planet[col1[X]][col1[Y]] = null;
                         resourcemap[col1[X]][col1[Y]] = false;
                     }
                 }
 
+            } else if (agent.equals("col2")) {
 
-            } else if(agent.equals("col2")) {
-
-                if(resourcemap[col2[X]][col2[Y]])   {
+                if (resourcemap[col2[X]][col2[Y]]) {
                     Resource r = (Resource) planet[col2[X]][col2[Y]];
                     r.mine();
                     c2res = r.getType();
-                    gui.out("Agent B mining resource "+c2res);
-                    if(r.depleted()) {
+                    gui.out("Agent B mining resource " + c2res);
+                    if (r.depleted()) {
                         planet[col2[X]][col2[Y]] = null;
                         resourcemap[col2[X]][col2[Y]] = false;
                     }
                 }
 
-            } else if(agent.equals("col3")) {
+            } else if (agent.equals("col3")) {
 
-                if(resourcemap[col3[X]][col3[Y]])   {
+                if (resourcemap[col3[X]][col3[Y]]) {
                     Resource r = (Resource) planet[col3[X]][col3[Y]];
                     r.mine();
                     c3res = r.getType();
-                    gui.out("Agent C mining resource "+c3res);
-                    if(r.depleted()) {
+                    gui.out("Agent C mining resource " + c3res);
+                    if (r.depleted()) {
                         planet[col3[X]][col3[Y]] = null;
                         resourcemap[col3[X]][col3[Y]] = false;
                     }
                 }
-            } else if(agent.equals("col4")) {
+            } else if (agent.equals("col4")) {
 
-                if(resourcemap[col4[X]][col4[Y]])   {
+                if (resourcemap[col4[X]][col4[Y]]) {
                     Resource r = (Resource) planet[col4[X]][col4[Y]];
                     r.mine();
                     c3res = r.getType();
-                    gui.out("Agent C mining resource "+c3res);
-                    if(r.depleted()) {
+                    gui.out("Agent C mining resource " + c3res);
+                    if (r.depleted()) {
                         planet[col4[X]][col4[Y]] = null;
                         resourcemap[col4[X]][col4[Y]] = false;
                     }
                 }
             }
 
-        } else if(action.getFunctor().equals(dr)) {
+        } else if (action.getFunctor().equals(dr)) {
 
             rid++;
-            Literal r1store = Literal.parseLiteral("new_resource(1,"+rid+")");
-            Literal r2store = Literal.parseLiteral("new_resource(2,"+rid+")");
-            Literal r3store = Literal.parseLiteral("new_resource(3,"+rid+")");
+            Literal r1store = Literal.parseLiteral("new_resource(1," + rid + ")");
+            Literal r2store = Literal.parseLiteral("new_resource(2," + rid + ")");
+            Literal r3store = Literal.parseLiteral("new_resource(3," + rid + ")");
 
-            if(agent.equals("col1")) {
+            if (agent.equals("col1")) {
                 Site s = (Site) planet[middle][middle];
                 s.addstore(c1res);
-                gui.out("Agent A dropped resource "+c1res+" at home base");
-                switch(c1res) {
-                case 1:
-                    addPercept("builder",r1store);
-                    break;
-                case 2:
-                    addPercept("builder",r2store);
-                    break;
-                case 3:
-                    addPercept("builder",r3store);
-                    break;
+                gui.out("Agent A dropped resource " + c1res + " at home base");
+                switch (c1res) {
+                    case 1:
+                        addPercept("builder", r1store);
+                        break;
+                    case 2:
+                        addPercept("builder", r2store);
+                        break;
+                    case 3:
+                        addPercept("builder", r3store);
+                        break;
                 }
-            } else if(agent.equals("col2")) {
+            } else if (agent.equals("col2")) {
                 Site s = (Site) planet[middle][middle];
                 s.addstore(c2res);
-                gui.out("Agent B dropped resource "+c2res+" at home base");
-                switch(c2res) {
-                case 1:
-                    addPercept("builder",r1store);
-                    break;
-                case 2:
-                    addPercept("builder",r2store);
-                    break;
-                case 3:
-                    addPercept("builder",r3store);
-                    break;
+                gui.out("Agent B dropped resource " + c2res + " at home base");
+                switch (c2res) {
+                    case 1:
+                        addPercept("builder", r1store);
+                        break;
+                    case 2:
+                        addPercept("builder", r2store);
+                        break;
+                    case 3:
+                        addPercept("builder", r3store);
+                        break;
                 }
-            } else if(agent.equals("col3")) {
+            } else if (agent.equals("col3")) {
                 Site s = (Site) planet[middle][middle];
                 s.addstore(c3res);
-                gui.out("Agent C dropped resource "+c3res+" at home base");
-                switch(c3res) {
-                case 1:
-                    addPercept("builder",r1store);
-                    break;
-                case 2:
-                    addPercept("builder",r2store);
-                    break;
-                case 3:
-                    addPercept("builder",r3store);
-                    break;
+                gui.out("Agent C dropped resource " + c3res + " at home base");
+                switch (c3res) {
+                    case 1:
+                        addPercept("builder", r1store);
+                        break;
+                    case 2:
+                        addPercept("builder", r2store);
+                        break;
+                    case 3:
+                        addPercept("builder", r3store);
+                        break;
                 }
 
-            } else if(agent.equals("col4")) {
+            } else if (agent.equals("col4")) {
                 Site s = (Site) planet[middle][middle];
                 s.addstore(c3res);
-                gui.out("Agent D dropped resource "+c3res+" at home base");
-                switch(c3res) {
-                case 1:
-                    addPercept("builder",r1store);
-                    break;
-                case 2:
-                    addPercept("builder",r2store);
-                    break;
-                case 3:
-                    addPercept("builder",r3store);
-                    break;
+                gui.out("Agent D dropped resource " + c3res + " at home base");
+                switch (c3res) {
+                    case 1:
+                        addPercept("builder", r1store);
+                        break;
+                    case 2:
+                        addPercept("builder", r2store);
+                        break;
+                    case 3:
+                        addPercept("builder", r3store);
+                        break;
                 }
 
             }
 
-        } else if(action.getFunctor().equals("move_towards")) {
+        } else if (action.getFunctor().equals("move_towards")) {
 
             int x = (new Integer(action.getTerm(0).toString())).intValue();
             int y = (new Integer(action.getTerm(1).toString())).intValue();
 
-            if(agent.equals("col1")) {
+            if (agent.equals("col1")) {
 
                 if (col1[X] < x)
                     col1[X]++;
@@ -367,7 +366,7 @@ public class PlanetEnv extends Environment {
                 else if (col1[Y] > y)
                     col1[Y]--;
 
-            } else if(agent.equals("col2")) {
+            } else if (agent.equals("col2")) {
 
                 if (col2[X] < x)
                     col2[X]++;
@@ -378,7 +377,7 @@ public class PlanetEnv extends Environment {
                 else if (col2[Y] > y)
                     col2[Y]--;
 
-            } else if(agent.equals("col3")) {
+            } else if (agent.equals("col3")) {
 
                 if (col3[X] < x)
                     col3[X]++;
@@ -389,7 +388,7 @@ public class PlanetEnv extends Environment {
                 else if (col3[Y] > y)
                     col3[Y]--;
 
-            } else if(agent.equals("col4")) {
+            } else if (agent.equals("col4")) {
 
                 if (col4[X] < x)
                     col4[X]++;
@@ -414,49 +413,49 @@ public class PlanetEnv extends Environment {
     }
 
     void updatePercepts(String agent) {
-        if(agent.equals("col1")) {
+        if (agent.equals("col1")) {
             clearPercepts("col1");
-            col1Pos = Literal.parseLiteral("position("+col1[X]+","+col1[Y]+")");
-            addPercept("col1",col1Pos);
+            col1Pos = Literal.parseLiteral("position(" + col1[X] + "," + col1[Y] + ")");
+            addPercept("col1", col1Pos);
 
-            if(resourcemap[col1[X]][col1[Y]]) {
-                Resource r = (Resource)planet[col1[X]][col1[Y]];
+            if (resourcemap[col1[X]][col1[Y]]) {
+                Resource r = (Resource) planet[col1[X]][col1[Y]];
                 int resource = r.getType();
-                resC1 = Literal.parseLiteral("found("+resource+")");
-                addPercept("col1",resC1);
+                resC1 = Literal.parseLiteral("found(" + resource + ")");
+                addPercept("col1", resC1);
             }
-        } else if(agent.equals("col2")) {
+        } else if (agent.equals("col2")) {
             clearPercepts("col2");
-            col2Pos = Literal.parseLiteral("position("+col2[X]+","+col2[Y]+")");
-            addPercept("col2",col2Pos);
+            col2Pos = Literal.parseLiteral("position(" + col2[X] + "," + col2[Y] + ")");
+            addPercept("col2", col2Pos);
 
-            if(resourcemap[col2[X]][col2[Y]]) {
-                Resource r = (Resource)planet[col2[X]][col2[Y]];
+            if (resourcemap[col2[X]][col2[Y]]) {
+                Resource r = (Resource) planet[col2[X]][col2[Y]];
                 int resource = r.getType();
-                resC2 = Literal.parseLiteral("found("+resource+")");
-                addPercept("col2",resC2);
+                resC2 = Literal.parseLiteral("found(" + resource + ")");
+                addPercept("col2", resC2);
             }
-        } else if(agent.equals("col3")) {
+        } else if (agent.equals("col3")) {
             clearPercepts("col3");
-            col3Pos = Literal.parseLiteral("position("+col3[X]+","+col3[Y]+")");
-            addPercept("col3",col3Pos);
+            col3Pos = Literal.parseLiteral("position(" + col3[X] + "," + col3[Y] + ")");
+            addPercept("col3", col3Pos);
 
-            if(resourcemap[col3[X]][col3[Y]]) {
-                Resource r = (Resource)planet[col3[X]][col3[Y]];
+            if (resourcemap[col3[X]][col3[Y]]) {
+                Resource r = (Resource) planet[col3[X]][col3[Y]];
                 int resource = r.getType();
-                resC3 = Literal.parseLiteral("found("+resource+")");
-                addPercept("col3",resC3);
+                resC3 = Literal.parseLiteral("found(" + resource + ")");
+                addPercept("col3", resC3);
             }
-        } else if(agent.equals("col4")) {
+        } else if (agent.equals("col4")) {
             clearPercepts("col4");
-            col4Pos = Literal.parseLiteral("position("+col4[X]+","+col4[Y]+")");
-            addPercept("col4",col4Pos);
+            col4Pos = Literal.parseLiteral("position(" + col4[X] + "," + col4[Y] + ")");
+            addPercept("col4", col4Pos);
 
-            if(resourcemap[col4[X]][col4[Y]]) {
-                Resource r = (Resource)planet[col4[X]][col4[Y]];
+            if (resourcemap[col4[X]][col4[Y]]) {
+                Resource r = (Resource) planet[col4[X]][col4[Y]];
                 int resource = r.getType();
-                resC3 = Literal.parseLiteral("found("+resource+")");
-                addPercept("col4",resC3);
+                resC3 = Literal.parseLiteral("found(" + resource + ")");
+                addPercept("col4", resC3);
             }
         }
     }
@@ -468,12 +467,15 @@ public class PlanetEnv extends Environment {
     public int[] geta1() {
         return col1;
     }
+
     public int[] geta2() {
         return col2;
     }
+
     public int[] geta3() {
         return col3;
     }
+
     public int[] geta4() {
         return col4;
     }

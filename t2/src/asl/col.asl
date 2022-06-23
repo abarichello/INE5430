@@ -2,30 +2,29 @@ pos(boss,15,15).
 checking_cells.
 resource_needed(1).
 
-// Informa os outros agentes que um recurso R foi found na posição X,Y
+// Informa os outros agentes que um recurso R foi encontrado na posição X,Y
 +!check_for_resources
    :  resource_needed(R) & found(R) & position(X,Y)
    <- !stop_search;
-   	  .broadcast(tell,resource(X,Y,R));
+        .broadcast(tell,resource(X,Y,R));
       !take(R,boss);
       !continue.
 
 // Informa os agentes que o recurso R na posição X,Y se esgotou
-// atraves da remocao da mensagem enviada anteriormente
+// atraves da remocao da mensagem de resource que foi enviada anteriormente
 +!check_for_resources
    :  resource_needed(R) & not found(R) & position(X,Y)
    <- move_to(next_cell);
    .broadcast(untell,resource(X,Y,R)).
 
-// Informa os agentes que foi found um recurso diferente
+// Informa os agentes que foi encontrado um recurso diferente
 // do que esta sendo coletado
 +!check_for_resources
    :  resource_needed(R) & found(S) & position(X,Y)
    <- .broadcast(tell,resource(X,Y,S));
-   	  .wait(100);
+        .wait(100);
       move_to(next_cell).
 
-// Procedures relacionadas a mineracao e recursos
 +resource(X,Y,R)
    : not position(X,Y)
    <- !go(X,Y).
