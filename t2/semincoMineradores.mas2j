@@ -1,7 +1,7 @@
 MAS resourceCollection {
     infrastructure: Centralised
 
-    environment: env.planetEnv
+    environment: env.PlanetEnv
 
     agents:
         col #3;

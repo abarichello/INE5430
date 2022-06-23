@@ -5,14 +5,14 @@ import javax.swing.*;
 
 public class GUI extends JFrame {
 
-    private planetEnv environment;
+    private PlanetEnv environment;
     private PlanetGUI planet;
     private JTextArea output;
     private JScrollPane outScroll;
     private Box box;
     private JLabel label;
     
-    public GUI(planetEnv env) {
+    public GUI(PlanetEnv env) {
         super("Multi Agent System - Resource Collection");
         environment = env;
         planet = new PlanetGUI(environment);
