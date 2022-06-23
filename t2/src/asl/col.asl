@@ -25,7 +25,6 @@ necessario(1).
    	  .wait(100);
       move_to(next_cell).
 
-
 // Procedures relacionadas a mineracao e recursos
 +resource(X,Y,R)
    : not posicao(X,Y)
@@ -70,7 +69,6 @@ necessario(1).
 +posicao(X,Y)
    :  verifica_pos & not recursos_coletados
    <- !procura_recurso.
-
 
 @psf[atomic]
 +!search_for(NewResource) : necessario(OldResource)

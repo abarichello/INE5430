@@ -15,8 +15,8 @@ public class Site extends PlanetCell {
     public Site() {
 
         r1needed = 40;
-        r2needed = 55;
-        r3needed = 50;
+        r2needed = 50;
+        r3needed = 60;
 
         r1store = 0;
         r2store = 0;

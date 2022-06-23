@@ -12,7 +12,6 @@ public class PlanetGUI extends JPanel {
     private int[] agent2;
     private int[] agent3;
     private int[] agent4;
-    private int[] agent5;
     private PlanetEnv environment;
     private int gridSize;
     private int middle;
@@ -85,16 +84,11 @@ public class PlanetGUI extends JPanel {
         g.setColor(Color.white);
         g.drawString("C", (agent3[0]*cellWidth) +7, (agent3[1]*cellHeight) +14);
 
+        // new agent
         g.setColor(Color.black);
         g.fillRoundRect(agent4[0]*cellWidth +3, agent4[1]*cellHeight +3, cellWidth - 5, cellHeight - 5, 3, 3);
         g.setColor(Color.white);
         g.drawString("D", (agent4[0]*cellWidth) +7, (agent4[1]*cellHeight) +14);
-
-        g.setColor(Color.black);
-        g.fillRoundRect(agent5[0]*cellWidth +3, agent5[1]*cellHeight +3, cellWidth - 5, cellHeight - 5, 3, 3);
-        g.setColor(Color.white);
-        g.drawString("E", (agent5[0]*cellWidth) +7, (agent5[1]*cellHeight) +14);
-
     }
 
 
@@ -105,7 +99,6 @@ public class PlanetGUI extends JPanel {
         agent2 = environment.geta2();
         agent3 = environment.geta3();
         agent4 = environment.geta4();
-        agent5 = environment.geta5();
         repaint();
     }
 

@@ -22,8 +22,6 @@ public class PlanetEnv extends Environment {
     public int col2[];
     public int col3[];
     public int col4[];
-    public int col5[];
-
 
     public int boss[];
 
@@ -33,14 +31,11 @@ public class PlanetEnv extends Environment {
     public Literal col2Pos;
     public Literal col3Pos;
     public Literal col4Pos;
-    public Literal col5Pos;
     public Literal resC1;
     public Literal resC2;
     public Literal resC3;
 
     public int rid;
-//        public List rstore = new LinkedList();
-
     public Literal r1fin = Literal.parseLiteral("enough(1)");
     public Literal r2fin = Literal.parseLiteral("enough(2)");
     public Literal finished = Literal.parseLiteral("recursos_coletados");
@@ -78,14 +73,10 @@ public class PlanetEnv extends Environment {
         col3 = new int[2];
         col3[X] = middle;
         col3[Y] = middle;
-        
-        // extra agents
+        // new agent
 		col4 = new int[2];
         col4[X] = middle;
         col4[Y] = middle;
-        col5 = new int[2];
-        col5[X] = middle;
-        col5[Y] = middle;
 
         rid = 0;
 
@@ -147,7 +138,6 @@ public class PlanetEnv extends Environment {
         updatePercepts("col2");
         updatePercepts("col3");
         updatePercepts("col4");
-        updatePercepts("col5");
 
         gui = new GUI(this);
 
@@ -203,18 +193,6 @@ public class PlanetEnv extends Environment {
                 }
                 if (col4[X] == gridSize) {
                     col4[X] = 0;
-                }
-
-            } else if(agent.equals("col5")) {
-
-                col5[Y]++;
-
-                if (col5[Y] == gridSize) {
-                    col5[Y] = 0;
-                    col5[X]++;
-                }
-                if (col5[X] == gridSize) {
-                    col5[X] = 0;
                 }
 
             }
@@ -300,18 +278,6 @@ public class PlanetEnv extends Environment {
                         resourcemap[col4[X]][col4[Y]] = false;
                     }
                 }
-            } else if(agent.equals("col5")) {
-
-                if(resourcemap[col5[X]][col5[Y]])   {
-                    Resource r = (Resource) planet[col5[X]][col5[Y]];
-                    r.mine();
-                    c3res = r.getType();
-                    gui.out("Agent C mining resource "+c3res);
-                    if(r.depleted()) {
-                        planet[col5[X]][col5[Y]] = null;
-                        resourcemap[col5[X]][col5[Y]] = false;
-                    }
-                }
             }
 
         } else if(action.getFunctor().equals(dr)) {
@@ -370,23 +336,7 @@ public class PlanetEnv extends Environment {
             } else if(agent.equals("col4")) {
                 Site s = (Site) planet[middle][middle];
                 s.addstore(c3res);
-                gui.out("Agent C dropped resource "+c3res+" at home base");
-                switch(c3res) {
-                case 1:
-                    addPercept("builder",r1store);
-                    break;
-                case 2:
-                    addPercept("builder",r2store);
-                    break;
-                case 3:
-                    addPercept("builder",r3store);
-                    break;
-                }
-
-            } else if(agent.equals("col5")) {
-                Site s = (Site) planet[middle][middle];
-                s.addstore(c3res);
-                gui.out("Agent C dropped resource "+c3res+" at home base");
+                gui.out("Agent D dropped resource "+c3res+" at home base");
                 switch(c3res) {
                 case 1:
                     addPercept("builder",r1store);
@@ -450,17 +400,6 @@ public class PlanetEnv extends Environment {
                 else if (col4[Y] > y)
                     col4[Y]--;
 
-            } else if(agent.equals("col5")) {
-
-                if (col5[X] < x)
-                    col5[X]++;
-                else if (col5[X] > x)
-                    col5[X]--;
-                if (col5[Y] < y)
-                    col5[Y]++;
-                else if (col5[Y] > y)
-                    col5[Y]--;
-
             }
 
         }
@@ -468,8 +407,6 @@ public class PlanetEnv extends Environment {
         updatePercepts(agent);
 
         informAgsEnvironmentChanged();
-
-        // gui.out(getPercepts("col1").toString()+getPercepts("col2").toString()+getPercepts("col3").toString()+getPercepts("builder").toString());
         gui.update();
 
         return true;
@@ -521,17 +458,6 @@ public class PlanetEnv extends Environment {
                 resC3 = Literal.parseLiteral("encontrado("+resource+")");
                 addPercept("col4",resC3);
             }
-        } else if(agent.equals("col5")) {
-            clearPercepts("col5");
-            col5Pos = Literal.parseLiteral("posicao("+col5[X]+","+col5[Y]+")");
-            addPercept("col5",col5Pos);
-
-            if(resourcemap[col5[X]][col5[Y]]) {
-                Resource r = (Resource)planet[col5[X]][col5[Y]];
-                int resource = r.getType();
-                resC3 = Literal.parseLiteral("encontrado("+resource+")");
-                addPercept("col5",resC3);
-            }
         }
     }
 
@@ -550,9 +476,6 @@ public class PlanetEnv extends Environment {
     }
     public int[] geta4() {
         return col4;
-    }
-    public int[] geta5() {
-        return col5;
     }
 
     public void stop() {
