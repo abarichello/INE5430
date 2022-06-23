@@ -38,7 +38,7 @@ public class PlanetEnv extends Environment {
     public int rid;
     public Literal r1fin = Literal.parseLiteral("enough(1)");
     public Literal r2fin = Literal.parseLiteral("enough(2)");
-    public Literal finished = Literal.parseLiteral("recursos_coletados");
+    public Literal finished = Literal.parseLiteral("building_finished");
 
     public final String bs = new String("build_using");
     public final String mr = new String("mine");
@@ -416,46 +416,46 @@ public class PlanetEnv extends Environment {
     void updatePercepts(String agent) {
         if(agent.equals("col1")) {
             clearPercepts("col1");
-            col1Pos = Literal.parseLiteral("posicao("+col1[X]+","+col1[Y]+")");
+            col1Pos = Literal.parseLiteral("position("+col1[X]+","+col1[Y]+")");
             addPercept("col1",col1Pos);
 
             if(resourcemap[col1[X]][col1[Y]]) {
                 Resource r = (Resource)planet[col1[X]][col1[Y]];
                 int resource = r.getType();
-                resC1 = Literal.parseLiteral("encontrado("+resource+")");
+                resC1 = Literal.parseLiteral("found("+resource+")");
                 addPercept("col1",resC1);
             }
         } else if(agent.equals("col2")) {
             clearPercepts("col2");
-            col2Pos = Literal.parseLiteral("posicao("+col2[X]+","+col2[Y]+")");
+            col2Pos = Literal.parseLiteral("position("+col2[X]+","+col2[Y]+")");
             addPercept("col2",col2Pos);
 
             if(resourcemap[col2[X]][col2[Y]]) {
                 Resource r = (Resource)planet[col2[X]][col2[Y]];
                 int resource = r.getType();
-                resC2 = Literal.parseLiteral("encontrado("+resource+")");
+                resC2 = Literal.parseLiteral("found("+resource+")");
                 addPercept("col2",resC2);
             }
         } else if(agent.equals("col3")) {
             clearPercepts("col3");
-            col3Pos = Literal.parseLiteral("posicao("+col3[X]+","+col3[Y]+")");
+            col3Pos = Literal.parseLiteral("position("+col3[X]+","+col3[Y]+")");
             addPercept("col3",col3Pos);
 
             if(resourcemap[col3[X]][col3[Y]]) {
                 Resource r = (Resource)planet[col3[X]][col3[Y]];
                 int resource = r.getType();
-                resC3 = Literal.parseLiteral("encontrado("+resource+")");
+                resC3 = Literal.parseLiteral("found("+resource+")");
                 addPercept("col3",resC3);
             }
         } else if(agent.equals("col4")) {
             clearPercepts("col4");
-            col4Pos = Literal.parseLiteral("posicao("+col4[X]+","+col4[Y]+")");
+            col4Pos = Literal.parseLiteral("position("+col4[X]+","+col4[Y]+")");
             addPercept("col4",col4Pos);
 
             if(resourcemap[col4[X]][col4[Y]]) {
                 Resource r = (Resource)planet[col4[X]][col4[Y]];
                 int resource = r.getType();
-                resC3 = Literal.parseLiteral("encontrado("+resource+")");
+                resC3 = Literal.parseLiteral("found("+resource+")");
                 addPercept("col4",resC3);
             }
         }

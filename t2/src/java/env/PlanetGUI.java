@@ -54,7 +54,7 @@ public class PlanetGUI extends JPanel {
                             g.setColor(Color.green);
                             break;
                         case 3:
-                            g.setColor(Color.blue);
+                            g.setColor(Color.lightGray);
                             break;
                         }
 

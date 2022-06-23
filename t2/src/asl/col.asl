@@ -1,33 +1,33 @@
 pos(boss,15,15).
-verifica_pos.
-necessario(1).
+checking_cells.
+resource_needed(1).
 
-// Informa os outros agentes que um recurso R foi encontrado na posição X,Y
-+!procura_recurso
-   :  necessario(R) & encontrado(R) & posicao(X,Y)
-   <- !para_busca;
+// Informa os outros agentes que um recurso R foi found na posição X,Y
++!check_for_resources
+   :  resource_needed(R) & found(R) & position(X,Y)
+   <- !stop_search;
    	  .broadcast(tell,resource(X,Y,R));
       !take(R,boss);
-      !continua.
+      !continue.
 
 // Informa os agentes que o recurso R na posição X,Y se esgotou
 // atraves da remocao da mensagem enviada anteriormente
-+!procura_recurso
-   :  necessario(R) & not encontrado(R) & posicao(X,Y)
++!check_for_resources
+   :  resource_needed(R) & not found(R) & position(X,Y)
    <- move_to(next_cell);
    .broadcast(untell,resource(X,Y,R)).
 
-// Informa os agentes que foi encontrado um recurso diferente
+// Informa os agentes que foi found um recurso diferente
 // do que esta sendo coletado
-+!procura_recurso
-   :  necessario(R) & encontrado(S) & posicao(X,Y)
++!check_for_resources
+   :  resource_needed(R) & found(S) & position(X,Y)
    <- .broadcast(tell,resource(X,Y,S));
    	  .wait(100);
       move_to(next_cell).
 
 // Procedures relacionadas a mineracao e recursos
 +resource(X,Y,R)
-   : not posicao(X,Y)
+   : not position(X,Y)
    <- !go(X,Y).
 
 +!take(R,B) : true
@@ -36,28 +36,27 @@ necessario(1).
       !go(B);
       drop(R).
 
-
 // Procedures de movimentacao e busca de recursos
-+necessario(R)
++resource_needed(R)
    : resource(X,Y,R)
    <- !go(X,Y).
 
 +!go(X,Y) : true
    <- move_towards(X,Y).
 
-+!para_busca : true
-   <- ?posicao(X,Y);
++!stop_search : true
+   <- ?position(X,Y);
       +pos(back,X,Y);
-      -verifica_pos.
+      -checking_cells.
 
-+!continua : true
++!continue : true
    <- !go(back);
       -pos(back,X,Y);
-      +verifica_pos;
-      !procura_recurso.
+      +checking_cells;
+      !check_for_resources.
 
 +!go(Position)
-   :  pos(Position,X,Y) & posicao(X,Y)
+   :  pos(Position,X,Y) & position(X,Y)
    <- true.
 
 +!go(Position) : true
@@ -66,17 +65,17 @@ necessario(1).
       move_towards(X,Y);
       !go(Position).
 
-+posicao(X,Y)
-   :  verifica_pos & not recursos_coletados
-   <- !procura_recurso.
++position(X,Y)
+   :  checking_cells & not building_finished
+   <- !check_for_resources.
 
 @psf[atomic]
-+!search_for(NewResource) : necessario(OldResource)
-   <- +necessario(NewResource);
++!search_for(NewResource) : resource_needed(OldResource)
+   <- +resource_needed(NewResource);
       -resource(_,_,OldResource);
-      -necessario(OldResource).
+      -resource_needed(OldResource).
 
 @pbf[atomic]
-+recursos_coletados : true
++building_finished : true
    <- .drop_all_desires;
       !go(boss).
