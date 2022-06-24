@@ -271,7 +271,7 @@ public class PlanetEnv extends Environment {
                     Resource r = (Resource) planet[col4[X]][col4[Y]];
                     r.mine();
                     c3res = r.getType();
-                    gui.out("Agent C mining resource " + c3res);
+                    gui.out("Agent D mining resource " + c3res);
                     if (r.depleted()) {
                         planet[col4[X]][col4[Y]] = null;
                         resourcemap[col4[X]][col4[Y]] = false;

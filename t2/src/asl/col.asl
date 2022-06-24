@@ -2,16 +2,20 @@ pos(boss,15,15).
 checking_cells.
 resource_needed(1).
 
-// Informa os outros agentes que um recurso R foi encontrado na posição X,Y
+// Informa os outros agentes que um recurso R foi encontrado na posição X,Y e retorna ao centro
+// Ao chamar ajuda de outros robôs ele ordena a mineração e enfileira uma ação de retornar à posição inicial
 +!check_for_resources
    :  resource_needed(R) & found(R) & position(X,Y)
    <- !stop_search;
         .broadcast(tell,resource(X,Y,R));
+         .print("Agent calling for mining help at: ", X, " ", Y);
       !take(R,boss);
+      .print("Agent is going back to the position where it was called for help: ", X, " ", Y);
+      !go(X,Y);
       !continue.
 
-// Informa os agentes que o recurso R na posição X,Y se esgotou
-// atraves da remocao da mensagem de resource que foi enviada anteriormente
+// Informa os agentes atraves da remocao da mensagem de resource que foi enviada anteriormente
+// que o recurso R na posição X,Y se esgotou
 +!check_for_resources
    :  resource_needed(R) & not found(R) & position(X,Y)
    <- move_to(next_cell);

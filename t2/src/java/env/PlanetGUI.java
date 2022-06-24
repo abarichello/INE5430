@@ -59,7 +59,7 @@ public class PlanetGUI extends JPanel {
 
                         g.fillOval(col * cellWidth + 3, row * cellHeight + 3, cellWidth - 5, cellHeight - 5);
                         g.setColor(Color.black);
-                        g.setFont(new Font("Arial", Font.PLAIN, 11));
+                        g.setFont(new Font("Arial", Font.PLAIN, 12));
                         g.drawString("" + amount, (col * cellWidth) + 8, (row * cellHeight) + 14);
                     }
 
